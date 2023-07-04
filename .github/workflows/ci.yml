@@ -29,5 +29,5 @@ jobs:
     - name: Publish to NPM
       run: npm publish
       env:
-        NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+        NODE_AUTH_TOKEN: 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
       if: github.ref == 'refs/heads/main'
