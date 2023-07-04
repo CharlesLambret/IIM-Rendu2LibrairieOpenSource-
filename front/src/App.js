@@ -1,23 +1,78 @@
-import logo from './logo.svg';
-import './App.css';
-import {useState} from "react";
-import { getDifferenceInDays, formatDate } from './fonctions/dateUtils';
+import React, { useState } from 'react';
 
-function App() {
-  const [date1, setDate1] = useState(new Date());
-    const [date2, setDate2] = useState(new Date());
-    const [format, setFormat] = useState('fr-FR');
+function DateCalculator() {
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [difference, setDifference] = useState('');
+  const [formattedDate, setFormattedDate] = useState('');
+  const [selectedFormat, setSelectedFormat] = useState('yyyy-MM-dd');
+
+  const calculateDifference = () => {
+    const oneDay = 24 * 60 * 60 * 1000; // Nombre de millisecondes dans un jour
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    // Calculer la différence en jours
+    const diffInDays = Math.round(Math.abs((start - end) / oneDay));
+
+    setDifference(diffInDays);
+  };
+
+  const formatDate = () => {
+    const dateToFormat = new Date(startDate);
+    let format = selectedFormat;
+
+    const formatted = format
+      .replace('yyyy', dateToFormat.getFullYear())
+      .replace('MM', ('0' + (dateToFormat.getMonth() + 1)).slice(-2))
+      .replace('dd', ('0' + dateToFormat.getDate()).slice(-2));
+
+    setFormattedDate(formatted);
+  };
+
   return (
     <div>
-            <input type="date" onChange={e => setDate1(new Date(e.target.value))} />
-            <input type="date" onChange={e => setDate2(new Date(e.target.value))} />
-            <p>Difference in days: {getDifferenceInDays(date1, date2)}</p>
+      <h2>Calculateur de dates</h2>
+      <div>
+        <h3>Calculer la différence de jours</h3>
+        <label>Date de début:</label>
+        <input
+          type="date"
+          value={startDate}
+          onChange={(e) => setStartDate(e.target.value)}
+        />
+        <label>Date de fin:</label>
+        <input
+          type="date"
+          value={endDate}
+          onChange={(e) => setEndDate(e.target.value)}
+        />
+        <button onClick={calculateDifference}>Calculer</button>
+        {difference && <p>La différence est de {difference} jours.</p>}
+      </div>
 
-            <input type="text" onChange={e => setFormat(e.target.value)} />
-            <p>Formatted date1: {formatDate(date1, format)}</p>
-            <p>Formatted date2: {formatDate(date2, format)}</p>
+      <div>
+        <h3>Formater une date</h3>
+        <label>Date à formater:</label>
+        <input
+          type="date"
+          value={startDate}
+          onChange={(e) => setStartDate(e.target.value)}
+        />
+        <label>Format:</label>
+        <select
+          value={selectedFormat}
+          onChange={(e) => setSelectedFormat(e.target.value)}
+        >
+          <option value="yyyy-MM-dd">yyyy-MM-dd</option>
+          <option value="dd/MM/yyyy">dd/MM/yyyy</option>
+          <option value="MM-dd-yyyy">MM-dd-yyyy</option>
+        </select>
+        <button onClick={formatDate}>Formater</button>
+        {formattedDate && <p>Date formatée: {formattedDate}</p>}
+      </div>
     </div>
   );
 }
 
-export default App;
+export default DateCalculator;
