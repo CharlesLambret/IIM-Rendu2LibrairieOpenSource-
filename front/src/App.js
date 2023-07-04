@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { calculateDateDifference, formatDate } from './dateUtils';
 
 function DateCalculator() {
   const [startDate, setStartDate] = useState('');
@@ -7,26 +8,13 @@ function DateCalculator() {
   const [formattedDate, setFormattedDate] = useState('');
   const [selectedFormat, setSelectedFormat] = useState('yyyy-MM-dd');
 
-  const calculateDifference = () => {
-    const oneDay = 24 * 60 * 60 * 1000; // Nombre de millisecondes dans un jour
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-
-    // Calculer la différence en jours
-    const diffInDays = Math.round(Math.abs((start - end) / oneDay));
-
+  const handleDifferenceCalculation = () => {
+    const diffInDays = calculateDateDifference(startDate, endDate);
     setDifference(diffInDays);
   };
 
-  const formatDate = () => {
-    const dateToFormat = new Date(startDate);
-    let format = selectedFormat;
-
-    const formatted = format
-      .replace('yyyy', dateToFormat.getFullYear())
-      .replace('MM', ('0' + (dateToFormat.getMonth() + 1)).slice(-2))
-      .replace('dd', ('0' + dateToFormat.getDate()).slice(-2));
-
+  const handleDateFormatting = () => {
+    const formatted = formatDate(startDate, selectedFormat);
     setFormattedDate(formatted);
   };
 
@@ -47,7 +35,7 @@ function DateCalculator() {
           value={endDate}
           onChange={(e) => setEndDate(e.target.value)}
         />
-        <button onClick={calculateDifference}>Calculer</button>
+        <button onClick={handleDifferenceCalculation}>Calculer</button>
         {difference && <p>La différence est de {difference} jours.</p>}
       </div>
 
@@ -68,7 +56,7 @@ function DateCalculator() {
           <option value="dd/MM/yyyy">dd/MM/yyyy</option>
           <option value="MM-dd-yyyy">MM-dd-yyyy</option>
         </select>
-        <button onClick={formatDate}>Formater</button>
+        <button onClick={handleDateFormatting}>Formater</button>
         {formattedDate && <p>Date formatée: {formattedDate}</p>}
       </div>
     </div>
