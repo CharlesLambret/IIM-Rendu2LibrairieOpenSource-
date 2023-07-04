@@ -1,0 +1,19 @@
+{
+  "name": "td-librairie_open_source",
+  "version": "1.0.0",
+  "description": "rendu pour le cours de librairie open source",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/CharlesLambret/IIM-td2LibrairieOpenSource.git"
+  },
+  "author": "charleslambretpro@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/CharlesLambret/IIM-td2LibrairieOpenSource/issues"
+  },
+  "homepage": "https://github.com/CharlesLambret/IIM-td2LibrairieOpenSource#readme"
+}
